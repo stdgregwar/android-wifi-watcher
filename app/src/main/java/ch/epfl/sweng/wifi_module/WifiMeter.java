@@ -4,9 +4,15 @@ package ch.epfl.sweng.wifi_module;
  * Created by gregwar on 07.10.16.
  */
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -36,6 +42,5 @@ public class WifiMeter {
         Log.v("BOUDIN","List size = " + filtered.size());
         return filtered;
     }
-
 
 }
