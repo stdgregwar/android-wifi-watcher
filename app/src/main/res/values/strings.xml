@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Wifi-Watcher</string>
+    <string name="ask_for_room">In which room are you?</string>
+    <string name="room_name_hint">Room name</string>
+    <string name="ask_for_filter">Choose an AP to filter.</string>
+    <string-array name="filter_default">
+        <item>None</item>
+    </string-array>
+    <string name="button_add_room">Add room</string>
+    <string name="button_refresh">Refresh</string>
+    <string name="button_switch_activity">Switch to Signature adding</string>
 </resources>

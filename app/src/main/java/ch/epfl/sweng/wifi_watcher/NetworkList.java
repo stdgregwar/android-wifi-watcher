@@ -2,7 +2,10 @@ package ch.epfl.sweng.wifi_watcher;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
@@ -31,12 +34,13 @@ import ch.epfl.sweng.wifi_module.WifiMeter;
 public class NetworkList extends AppCompatActivity {
     private final static int PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 0;
 
+
+    private WifiMeter meter;
+    private WifiManager mWifiManager;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-
-    WifiMeter meter;
 
     private GoogleApiClient client;
 
@@ -48,6 +52,7 @@ public class NetworkList extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
+        // Permission checking
         if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_COARSE_LOCATION)) {
 
@@ -61,9 +66,14 @@ public class NetworkList extends AppCompatActivity {
     }
 
     public void onButtonRefreshClick(View v) {
-        List<ScanResult> resultList = meter.getCurrentSignature();
+       List<ScanResult> resultList = meter.getCurrentSignature();
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(new SignatureAdapter(resultList));
+    }
+
+    public void onButtonSwitchActivity(View v) {
+        Intent intent = new Intent(this, AddSignature.class);
+        this.startActivity(intent);
     }
 
     @Override
@@ -91,4 +101,5 @@ public class NetworkList extends AppCompatActivity {
             // permissions this app might request
         }
     }
+
 }

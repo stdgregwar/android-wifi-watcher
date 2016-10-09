@@ -32,14 +32,12 @@ public class WifiMeter {
     }
     public List<ScanResult> getCurrentSignature(String ssidFilter) {
         List<ScanResult> results = manager.getScanResults();
-        Log.v("BOUDIN","List size = " + results.size());
         List<ScanResult> filtered = new ArrayList<>();
         for(ScanResult sr : results) {
             if(sr.SSID.matches(ssidFilter)) {
                 filtered.add(sr);
             }
         }
-        Log.v("BOUDIN","List size = " + filtered.size());
         return filtered;
     }
 
