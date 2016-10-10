@@ -13,13 +13,15 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 
+import ch.epfl.sweng.wifi_module.AccessPointDescription;
+
 /**
  * Created by gregwar on 07.10.16.
  */
 
 public class SignatureAdapter extends BaseAdapter {
-    private List<ScanResult> data;
-    public SignatureAdapter(List<ScanResult> data){
+    private List<AccessPointDescription> data;
+    public SignatureAdapter(List<AccessPointDescription> data){
         this.data  = data;
 
     }
@@ -52,9 +54,9 @@ public class SignatureAdapter extends BaseAdapter {
             BSSID = (TextView) row.findViewById(R.id.bssid_view);
             level = (TextView) row.findViewById(R.id.level_view);
 
-            SSID.setText(data.get(pos).SSID);
-            BSSID.setText(data.get(pos).BSSID);
-            level.setText("Level : " + data.get(pos).level);
+            SSID.setText(data.get(pos).getSSID());
+            BSSID.setText(data.get(pos).getBSSID());
+            level.setText("Level : " + data.get(pos).getLevel());
 
             return (row);
         }

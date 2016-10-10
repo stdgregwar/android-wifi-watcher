@@ -29,6 +29,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sweng.wifi_module.AccessPointDescription;
 import ch.epfl.sweng.wifi_module.WifiMeter;
 
 public class NetworkList extends AppCompatActivity {
@@ -66,7 +67,7 @@ public class NetworkList extends AppCompatActivity {
     }
 
     public void onButtonRefreshClick(View v) {
-       List<ScanResult> resultList = meter.getCurrentSignature();
+       List<AccessPointDescription> resultList = meter.getCurrentSignature();
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(new SignatureAdapter(resultList));
     }

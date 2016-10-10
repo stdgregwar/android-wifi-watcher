@@ -1,5 +1,8 @@
 <component name="libraryTable">
   <library name="support-compat-24.2.1">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/school/2016-2017/firstSemester/sweng/android-wifi-watcher/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/annotations.zip!/" />
+    </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$USER_HOME$/school/2016-2017/firstSemester/sweng/android-wifi-watcher/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar!/" />
       <root url="jar://$USER_HOME$/school/2016-2017/firstSemester/sweng/android-wifi-watcher/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar!/" />
