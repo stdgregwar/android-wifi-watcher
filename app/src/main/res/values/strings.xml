@@ -8,5 +8,5 @@
     </string-array>
     <string name="button_add_room">Add room</string>
     <string name="button_refresh">Refresh</string>
-    <string name="button_switch_activity">Switch to Signature adding</string>
+    <string name="button_switch_activity">Add Sign.</string>
 </resources>

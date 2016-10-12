@@ -32,7 +32,7 @@ import ch.epfl.sweng.wifi_module.RoomSignature;
 import ch.epfl.sweng.wifi_module.WifiMeter;
 
 public class AddSignature extends AppCompatActivity {
-    private final static String WIFI_MAP_JSON = "wifiMap.json";
+    public final static String WIFI_MAP_JSON = "wifiMap.json";
     private String uid;
     private WifiMeter meter;
 
@@ -69,59 +69,69 @@ public class AddSignature extends AppCompatActivity {
     }
 
     public void onButtonAddSignature(View v) {
-        String roomName = ((EditText) findViewById(R.id.room_name)).getText().toString();
+        final String roomName = ((EditText) findViewById(R.id.room_name)).getText().toString();
         if (!isValidRoomName(roomName)) {
             Toast.makeText(this, "Invalid room name, please retry", Toast.LENGTH_SHORT).show();
             return;
         }
-        String filter = String.valueOf(((Spinner) findViewById(R.id.spinner_filter)).getSelectedItem());
-        List<AccessPointDescription> scanResults;
-        if (filter.equals("None")) {
-            scanResults = meter.getCurrentSignature();
-        } else {
-            scanResults = meter.getCurrentSignature(filter);
-        }
+        final String filter = String.valueOf(((Spinner) findViewById(R.id.spinner_filter)).getSelectedItem());
+        final Context that = this;
 
-        long time = System.currentTimeMillis() / 1000L;
-        RoomSignature roomSignature = new RoomSignature(roomName, uid, time, scanResults);
+        Toast.makeText(this, "Scanning...", Toast.LENGTH_SHORT).show();
 
-        Map<String, List<RoomSignature>> roomSignatureMap = new HashMap<>();
-        roomSignatureMap.put(roomName, Arrays.asList(roomSignature));
-
-        Gson gson = new Gson();
-
-        try {
-            if (!isWifiMapPresent()) {
-                FileOutputStream fileOutputStream = openFileOutput(WIFI_MAP_JSON, Context.MODE_PRIVATE);
-                fileOutputStream.write(gson.toJson(roomSignatureMap).getBytes());
-                fileOutputStream.close();
-            } else {
-                FileInputStream fileInputStream = openFileInput(WIFI_MAP_JSON);
-                StringBuilder builder = new StringBuilder();
-                int ch;
-                while ((ch = fileInputStream.read()) != -1) {
-                    builder.append((char) ch);
-                }
-                fileInputStream.close();
-                Map<String, List<RoomSignature>> roomSignatureMapParsed = gson.fromJson(builder.toString(), new TypeToken<Map<String, List<RoomSignature>>>() {
-                }.getType());
-                if (roomSignatureMapParsed.containsKey(roomName)) {
-                    List<RoomSignature> list = roomSignatureMapParsed.get(roomName);
-                    list.add(roomSignature);
-                    roomSignatureMapParsed.put(roomName, list);
+        WifiMeter.Listener li = new WifiMeter.Listener(){
+            @Override
+            public void onScanResultsReady(List<AccessPointDescription> results) {
+                List<AccessPointDescription> scanResults;
+                if (filter.equals("None")) {
+                    scanResults = meter.getCurrentSignature();
                 } else {
-                    roomSignatureMapParsed.put(roomName, Arrays.asList(roomSignature));
+                    scanResults = meter.getCurrentSignature(filter);
                 }
-                FileOutputStream fileOutputStream = openFileOutput(WIFI_MAP_JSON, Context.MODE_PRIVATE);
-                fileOutputStream.write(gson.toJson(roomSignatureMapParsed).getBytes());
-                fileOutputStream.close();
+
+                long time = System.currentTimeMillis() / 1000L;
+                RoomSignature roomSignature = new RoomSignature(roomName, uid, time, scanResults);
+
+                Map<String, List<RoomSignature>> roomSignatureMap = new HashMap<>();
+                roomSignatureMap.put(roomName, Arrays.asList(roomSignature));
+
+                Gson gson = new Gson();
+
+                try {
+                    if (!isWifiMapPresent()) {
+                        FileOutputStream fileOutputStream = openFileOutput(WIFI_MAP_JSON, Context.MODE_PRIVATE);
+                        fileOutputStream.write(gson.toJson(roomSignatureMap).getBytes());
+                        fileOutputStream.close();
+                    } else {
+                        FileInputStream fileInputStream = openFileInput(WIFI_MAP_JSON);
+                        StringBuilder builder = new StringBuilder();
+                        int ch;
+                        while ((ch = fileInputStream.read()) != -1) {
+                            builder.append((char) ch);
+                        }
+                        fileInputStream.close();
+                        Map<String, List<RoomSignature>> roomSignatureMapParsed = gson.fromJson(builder.toString(), new TypeToken<Map<String, List<RoomSignature>>>() {
+                        }.getType());
+                        if (roomSignatureMapParsed.containsKey(roomName)) {
+                            List<RoomSignature> list = roomSignatureMapParsed.get(roomName);
+                            list.add(roomSignature);
+                            roomSignatureMapParsed.put(roomName, list);
+                        } else {
+                            roomSignatureMapParsed.put(roomName, Arrays.asList(roomSignature));
+                        }
+                        FileOutputStream fileOutputStream = openFileOutput(WIFI_MAP_JSON, Context.MODE_PRIVATE);
+                        fileOutputStream.write(gson.toJson(roomSignatureMapParsed).getBytes());
+                        fileOutputStream.close();
+                    }
+                } catch (FileNotFoundException e) {
+
+                } catch (IOException e) {
+
+                }
+                Toast.makeText(that, "There were " + scanResults.size() + " AP for the signature of room " + roomName, Toast.LENGTH_LONG).show();
             }
-        } catch (FileNotFoundException e) {
-
-        } catch (IOException e) {
-
-        }
-        Toast.makeText(this, "There were " + scanResults.size() + " AP for the signature of room " + roomName, Toast.LENGTH_LONG).show();
+        };
+        meter.scheduleGetSignature(li);
     }
 
     private boolean isValidRoomName(String name) {

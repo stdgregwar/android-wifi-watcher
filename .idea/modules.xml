@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/android-wifi-watcher.iml" filepath="$PROJECT_DIR$/android-wifi-watcher.iml" />
       <module fileurl="file://$USER_HOME$/school/2016-2017/firstSemester/sweng/android-wifi-watcher/android-wifi-watcher.iml" filepath="$USER_HOME$/school/2016-2017/firstSemester/sweng/android-wifi-watcher/android-wifi-watcher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$USER_HOME$/school/2016-2017/firstSemester/sweng/android-wifi-watcher/app/app.iml" filepath="$USER_HOME$/school/2016-2017/firstSemester/sweng/android-wifi-watcher/app/app.iml" />
     </modules>
   </component>

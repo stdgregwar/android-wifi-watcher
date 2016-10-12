@@ -48,5 +48,13 @@
             android:layout_alignParentEnd="true"
             android:onClick="onButtonSwitchActivity"
             android:layout_weight="1"/>
+
+        <Button
+            android:text="Match"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button3"
+            android:layout_weight="1"
+            android:onClick="onButtonMatch" />
     </LinearLayout>
 </RelativeLayout>
